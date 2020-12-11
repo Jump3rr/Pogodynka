@@ -1,5 +1,10 @@
 export class Note {
-    constructor(title, content, details, color = 'red', pinned = false) {        
+    constructor(title, content, details, color = 'red', pinned = false) {  
+        let apiKey = "f5882d2baf0219f483a0ad679b3c47af";    
+        let url = `http://api.openweathermap.org/data/2.5/weather?q=Cracow&APPID=${apiKey}`;  
+        let http = new XMLHttpRequest();
+        http.open("GET", url, true);
+        http.send();
         this.title = title;
         this.content = content;
         this.details = details;

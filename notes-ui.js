@@ -19,7 +19,6 @@ export class NotesUI {
             htmlNote.style.order=2;
         }
 
-        console.log(htmlNote.style.order);
         const htmlCity = document.createElement('h1');
         const htmlContent = document.createElement('h2');
         const htmlDetails = document.createElement('h5');
@@ -28,20 +27,43 @@ export class NotesUI {
         
         htmlNote.style.backgroundColor=note.color;
 
+        const apiKey = "f5882d2baf0219f483a0ad679b3c47af";    
+        let miasto  = note.title;
+        let url = `http://api.openweathermap.org/data/2.5/weather?q=${miasto}&APPID=${apiKey}`;  
+        let http = new XMLHttpRequest();
+        http.open("GET", url, true);
+        http.send();
+        //let pogoda;
+        http.addEventListener("readystatechange", function(e) {
+            let pogoda = JSON.parse(e.target.responseText);
+            console.log(pogoda);
+            htmlContent.innerHTML = pogoda.weather[0].main;//  +" "+  5/9* (pogoda.main.temp-32);
+            //htmlNote.appendChild(htmlContent);
+            htmlContent.appendChild(document.createElement("br"));
+            htmlContent.innerHTML += Math.round(pogoda.main.temp-273.15) + "℃";
+            htmlNote.appendChild(htmlContent);
+
+            htmlDetails.innerHTML = "Wilgotność: " + pogoda.main.humidity;
+            htmlDetails.appendChild(document.createElement("br"));
+            htmlDetails.innerHTML += "Ciśnienie: " + pogoda.main.pressure;
+            htmlNote.appendChild(htmlDetails);
+            htmlNote.appendChild(htmlButton);
+            htmlNote.appendChild(htmlTime);
+        });
         htmlNote.classList.add('note');
         htmlNote.setAttribute('name', note.id);
         htmlCity.innerHTML = note.title;
-        htmlContent.innerHTML = note.content;
-        htmlDetails.innerHTML = note.details;
+       // htmlContent.innerHTML = note.content;
+       // htmlDetails.innerHTML = note.details;
         htmlButton.innerHTML = 'Remove'; 
         htmlTime.innerHTML = note.createDate.toLocaleString(); 
         htmlButton.id = note.id;
 
         htmlNote.appendChild(htmlCity);
-        htmlNote.appendChild(htmlContent);
-        htmlNote.appendChild(htmlDetails);
-        htmlNote.appendChild(htmlButton);
-        htmlNote.appendChild(htmlTime);
+       // htmlNote.appendChild(htmlContent);
+       // htmlNote.appendChild(htmlDetails);
+        //htmlNote.appendChild(htmlButton);
+        //htmlNote.appendChild(htmlTime);
 
         return htmlNote;
     }
