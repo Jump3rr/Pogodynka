@@ -37,10 +37,15 @@ export class NotesUI {
         http.addEventListener("readystatechange", function(e) {
             let pogoda = JSON.parse(e.target.responseText);
             console.log(pogoda);
-            htmlContent.innerHTML = pogoda.weather[0].main;//  +" "+  5/9* (pogoda.main.temp-32);
+           // htmlContent.innerHTML = pogoda.weather[0].main;
+            htmlContent.innerHTML = Math.round(pogoda.main.temp-273.15) + "℃";
+            var img = document.createElement("img");
+            //img.src = `${pogoda.weather[0].icon}.png`;
+            img.src = `http://openweathermap.org/img/wn/${pogoda.weather[0].icon}@2x.png`
+            htmlContent.appendChild(img);
             //htmlNote.appendChild(htmlContent);
             htmlContent.appendChild(document.createElement("br"));
-            htmlContent.innerHTML += Math.round(pogoda.main.temp-273.15) + "℃";
+           // htmlContent.innerHTML += Math.round(pogoda.main.temp-273.15) + "℃";
             htmlNote.appendChild(htmlContent);
 
             htmlDetails.innerHTML = "Wilgotność: " + pogoda.main.humidity;
@@ -56,7 +61,7 @@ export class NotesUI {
        // htmlContent.innerHTML = note.content;
        // htmlDetails.innerHTML = note.details;
         htmlButton.innerHTML = 'Remove'; 
-        htmlTime.innerHTML = note.createDate.toLocaleString(); 
+        htmlTime.innerHTML = new Date().toLocaleString();//note.createDate.toLocaleString(); 
         htmlButton.id = note.id;
 
         htmlNote.appendChild(htmlCity);
