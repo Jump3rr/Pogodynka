@@ -21,12 +21,10 @@ removeNote.addEventListener('click', (event) => {
 })
 function refresh(t){
     setTimeout("location.reload(true);", t);
-    //setTimeout(notesObj.renderNotes(), t);
 }
 
 function addNote(){
     const title = document.querySelector("#noteTitle").value;
-    //const detais = "aesfoasijrfase";
     const note = new Note(title);
-    notesObj.addNote(note);
+    notesObj.promiseAdd(note);
 }
