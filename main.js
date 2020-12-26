@@ -8,17 +8,19 @@ const notesui = new Db();
 
 notesObj.renderNotes();
 document.querySelector('#newNoteBtn').addEventListener('click', addNote);
-document.querySelector('body').onload(refresh(120000));
+document.querySelector('body').onload = refresh(120000);
 const removeNote = document.querySelector('notes');
 
 removeNote.addEventListener('click', (event) => {
+  console.log(event.target.nodeValue);
   const isButton = event.target.nodeName === 'BUTTON';
   if (!isButton) {
     return;
   }
-  notesObj.removeNote(event.target.id);
-  console.log(event.target.id);
+  if(event.target.name==="usun")
+    notesObj.removeNote(event.target.id);
 })
+
 function refresh(t){
     setTimeout("location.reload(true);", t);
 }
